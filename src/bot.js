@@ -1,10 +1,28 @@
+require("dotenv").config();
+
 const axios = require('axios');
+const express = require('express');
 
 const { Secp256k1HdWallet } = require("@cosmjs/amino");
 const { SigningCosmWasmClient } = require("@cosmjs/cosmwasm-stargate");
 const { calculateFee, GasPrice } = require("@cosmjs/stargate");
 
-require("dotenv").config();
+const app = express();
+
+let projects = {};
+
+app.get('/api/:projectId', (req, res) => {
+    const projectId = req.params.projectId;
+    const project = projects[projectId];
+
+    if (project) {
+        // If a match is found, return the result as a string
+        res.json({ data: projects[projectId] });
+    } else {
+        // If no match is found, return a null result
+        res.json({ data: null });
+    }
+});
 
 // Load environment variables
 const rpcUrl = process.env.RPC_URL;
@@ -43,7 +61,7 @@ async function bot() {
 
             for (let j = 0; j < requests.length; j++) {
                 const request = requests[j];
-                console.log("Proj", i, "Req:", request);
+                console.log("Proj", i, "Url:", scriptUrl, "Req:", request);
 
                 try {
                     let result = await runScript(
@@ -129,8 +147,14 @@ async function saveExecResult(client, projId, request, result) {
         executeFee
     );
 
+    // Save for the API
+    projects[projId] = result;
+
     return executeResult ? executeResult : null;
 }
 
 // Call the bot function
 bot().catch(console.error);
+
+// Start the server
+app.listen(3327, () => console.log('Server listening on port 3327...'));
