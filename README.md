@@ -1,6 +1,6 @@
 # Important
 
-In a recent update, the Gateway Bot implementation has been merged into the Gateway Backend repository. For information and updates, please refer to the Gateway Backend repository.
+In a recent update, the Gateway Bot implementation has been merged into the [Gateway Backend](https://github.com/D3LAB-DAO/gateway-backend) repository. For information and updates, please refer to the [Gateway Backend repository](https://github.com/D3LAB-DAO/gateway-backend).
 
 ---
 
