@@ -1,3 +1,9 @@
+# Important
+
+In a recent update, the Gateway Bot implementation has been merged into the Gateway Backend repository. For information and updates, please refer to the Gateway Backend repository.
+
+---
+
 # Gateway Bot
 
 This is a Node.js application that monitors new requests for projects and executes them. It retrieves requests from a smart contract, runs a script with input parameters, and saves the execution result to the smart contract.
