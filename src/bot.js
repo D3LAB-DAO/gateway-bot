@@ -7,7 +7,15 @@ const { Secp256k1HdWallet } = require("@cosmjs/amino");
 const { SigningCosmWasmClient } = require("@cosmjs/cosmwasm-stargate");
 const { calculateFee, GasPrice } = require("@cosmjs/stargate");
 
+const cors = require("cors");
+const corsOptions = {
+    origin: '*',
+    credentials: true,            //access-control-allow-credentials:true
+    optionSuccessStatus: 200,
+}
+
 const app = express();
+app.use(cors(corsOptions))
 
 let projects = {};
 
@@ -18,6 +26,7 @@ app.get('/api/:projectId', (req, res) => {
     if (project) {
         // If a match is found, return the result as a string
         res.json({ data: projects[projectId] });
+        projects[projectId] = undefined;
     } else {
         // If no match is found, return a null result
         res.json({ data: null });
@@ -32,7 +41,7 @@ const runUrl = process.env.RUN_ENDPOINT;
 
 let senderAddress;
 
-const gasPrice = GasPrice.fromString("0.025uconst");
+const gasPrice = GasPrice.fromString("140000000000aconst");
 
 // Define the bot function
 async function bot() {
@@ -110,6 +119,7 @@ async function runScript(url, inputParameters) {
         'Content-Type': 'application/json',
     };
     try {
+        // console.log(url, inputParameters);
         const response = await axios.post(
             runUrl,
             {
